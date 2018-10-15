@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env WEBPACK_MODE=production webpack --config ./config/webpack.config.js",
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy",
     "start": "webpack-dev-server --config ./config/webpack.config.js"
   },
   "repository": {
