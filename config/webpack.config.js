@@ -1,16 +1,32 @@
+const fs = require('fs');
 const path = require('path');
 
 const convict = require('convict');
-const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = convict({
+  analyze: {
+    doc: 'Specify if we should analyze the application',
+    default: false,
+    env: 'WEBPACK_ANALYZE'
+  },
   mode: {
     doc: 'The Webpack mode we should be running in',
     format: ['development', 'production'],
     default: 'development',
     env: 'WEBPACK_MODE',
+  },
+  outputPath: {
+    doc: 'Path to send webpack artifacts to',
+    format: (val) => {
+      const webpackArtifactPath = path.join(process.cwd(), val);
+      if (!fs.existsSync(webpackArtifactPath)) {
+        throw new Error(`${webpackArtifactPath} does not exist`);
+      }
+    },
+    default: './dist',
+    env: 'WEBPACK_OUTPUT_PATH',
   },
   port: {
     doc: 'The port which the application should be available on',
@@ -20,23 +36,14 @@ const config = convict({
   },
 });
 
+const webpackConfigBase = require(`./webpack.config.${config.get('mode')}`)(config);
 
-module.exports = {
-  devtool: config.get('mode') === 'development' ?
-    'cheap-module-source-map'
-    : 'cheap-source-map',
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    port: config.get('port'),
+const webpackConfig = {
+  ...webpackConfigBase,
+  entry: {
+    app: path.join(__dirname, '../src/entrypoint.js'),
+    ...webpackConfigBase.entry,
   },
-  entry: [
-    path.join(__dirname, '../src/entrypoint.js'),
-    config.get('mode') === 'development' ? 'webpack/hot/dev-server' : null,
-    config.get('mode') === 'development' ?
-      `webpack-dev-server/client?http://localhost:${config.get('port')}/`
-      : null,
-  ].filter((v) => v),
   mode: config.get('mode'),
   module: {
     rules: [
@@ -45,13 +52,20 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/env', '@babel/react']
+          presets: [
+            '@babel/env',
+            '@babel/react',
+          ],
+          plugins: [
+            // allows for `fnName = (arg) => {}` in classes
+            '@babel/proposal-class-properties'
+          ]
         }
       }
     ]
   },
   output: {
-    path: path.join(__dirname, '../dist'),
+    path: path.join(process.cwd(), config.get('outputPath')),
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -62,7 +76,9 @@ module.exports = {
       },
       template: path.join(__dirname, '../src/assets/index.html'),
     }),
-    new webpack.HotModuleReplacementPlugin(),
-  ],
-  watch: config.get('mode') === 'development',
+  ].concat(webpackConfigBase.plugins),
 };
+
+console.info(webpackConfig);
+
+module.exports = webpackConfig;

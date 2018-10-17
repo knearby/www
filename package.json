@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env WEBPACK_MODE=production webpack --config ./config/webpack.config.js",
+    "build:analyze": "cross-env WEBPACK_MODE=production WEBPACK_ANALYZE=true webpack --config ./config/webpack.config.js",
     "predeploy": "npm run build",
     "deploy": "firebase deploy",
-    "start": "webpack-dev-server --config ./config/webpack.config.js"
+    "start": "webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js --open",
+    "prestatic": "npm run build",
+    "static": "firebase serve"
   },
   "repository": {
     "type": "git",
@@ -22,17 +25,23 @@
   "homepage": "https://github.com/knearby/www#readme",
   "devDependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "@material-ui/core": "^3.2.1",
+    "@material-ui/core": "^3.2.2",
     "babel-loader": "^8.0.4",
+    "compression-webpack-plugin": "^2.0.0",
     "convict": "^4.4.0",
     "cross-env": "^5.2.0",
     "html-webpack-plugin": "^3.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-select": "^2.1.0",
+    "uuid": "^3.3.2",
     "webpack": "^4.20.2",
+    "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.1.2",
+    "webpack-dashboard": "^2.0.0",
     "webpack-dev-server": "^3.1.9"
   }
 }

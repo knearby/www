@@ -4,25 +4,43 @@
 
 ## Development
 
-To start development, install dependencies:
+1. Provision configuration:
+
+```sh
+cat > .firebaserc <<EOF
+{
+  "projects": {
+    "default": "dev-env",
+    "development": "dev-env",
+    "production": "prd-env"
+  }
+}
+>EOF;
+```
+
+> (replace the `dev-env` and `prd-env` as required)
+
+Then run `firebase use development`
+
+2. Install dependencies:
 
 ```sh
 npm install;
 ```
 
-Then start the application:
+3. Start the application:
 
 ```sh
 npm start;
 ```
 
-To build the production files:
+4. Build the production files:
 
 ```sh
 npm run build;
 ```
 
-To deploy the site:
+5. Deploy the site:
 
 ```sh
 npm run deploy;
