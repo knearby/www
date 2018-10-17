@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Application from './';
 
-console.info(`Running in ${global.environment}`);
+console.info(`%cRunning in ${global.environment}`, 'background-color: #333; font-size: 18px; color: #EEE; padding: 8px;');
 
 ReactDOM.render(
   <Application />,

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const locationIdentifierPlaceholderText = 'Where do you want to go today?';
+const locationIdentifierPlaceholderText = 'Where are you?';
 
 export default withStyles((theme) => ({}))(
   class LocationIdentifier extends React.Component {
@@ -25,12 +25,6 @@ export default withStyles((theme) => ({}))(
     render() {
       return (
         <div id="location-identifier">
-          <Typography variant="headline">
-            It works!!!
-          </Typography>
-          <Typography variant="body1">
-            Your session UUID is {this.state.uuid}
-          </Typography>
           <TextField
             fullWidth
             onChange={this.handleOnChange}
@@ -65,13 +59,48 @@ export default withStyles((theme) => ({}))(
               <div></div>
             )
           }
+          {
+            this.state.place ? (
+              <div>
+                <Typography variant="headline">
+                  Knearby {this.state.place.name}...
+                </Typography>
+                <Typography variant="caption">
+                  {this.state.place.types.map((type) => {
+                    <span key={type}>#{type}</span>
+                  })}
+                </Typography>
+                <Typography variant="caption">
+                  Coordinates: {this.state.place.lat}, {this.state.place.lng}
+                </Typography>
+              </div>
+            ) : (
+              <div></div>
+            )
+          }
         </div>
       );
     }
 
     handleLocationSelect = (place) => {
       console.info(place);
-      alert(`You selected ${place.mainText} at ${place.description}`)
+      fetch(`${global.url.api}placeInfo?session=${this.state.uuid}&placeid=${place.placeId}`)
+        .then((res) => res.json())
+        .then((body) => {
+          console.info(body);
+          this.setState({
+            autocompleteResults: [],
+            place: body,
+            uuid: uuid(),
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({
+            place: null,
+          });
+        });
+      alert(`You selected ${place.mainText} at ${place.description}`);
     }
 
     handleOnChange = (e) => {
@@ -88,6 +117,14 @@ export default withStyles((theme) => ({}))(
           .then((body) => {
             this.setState({
               autocompleteResults: body,
+              place: null,
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            this.setState({
+              autocompleteResults: [],
+              place: null,
             });
           });
       }, 500);

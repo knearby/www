@@ -4,6 +4,7 @@ const path = require('path');
 const convict = require('convict');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const config = convict({
   analyze: {
@@ -76,6 +77,7 @@ const webpackConfig = {
       },
       template: path.join(__dirname, '../src/assets/index.html'),
     }),
+    new FaviconsWebpackPlugin(path.join(__dirname, '../src/assets/icon.png')),
   ].concat(webpackConfigBase.plugins),
 };
 
