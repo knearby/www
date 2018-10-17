@@ -1,4 +1,5 @@
 .firebase
 .firebaserc
+*.log
 dist
 node_modules

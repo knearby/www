@@ -100,7 +100,6 @@ export default withStyles((theme) => ({}))(
             place: null,
           });
         });
-      alert(`You selected ${place.mainText} at ${place.description}`);
     }
 
     handleOnChange = (e) => {
