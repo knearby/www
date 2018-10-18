@@ -13,7 +13,7 @@ const firebaseProject = JSON.parse(
 ).projects.production;
 
 module.exports = (config) => ({
-  devtool: 'cheap-source-map',
+  devtool: 'cheap-module-source-map',
   entry: {},
   optimization: {
     splitChunks: {

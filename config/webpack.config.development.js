@@ -12,7 +12,7 @@ const firebaseProject = JSON.parse(
 ).projects.development;
 
 module.exports = (config) => ({
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-source-map',
   devServer: {
     historyApiFallback: true,
     hot: true,

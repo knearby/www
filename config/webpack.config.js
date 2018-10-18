@@ -59,10 +59,17 @@ const webpackConfig = {
           ],
           plugins: [
             // allows for `fnName = (arg) => {}` in classes
-            '@babel/proposal-class-properties'
-          ]
-        }
-      }
+            '@babel/proposal-class-properties',
+            // removes console logging
+            (config.get('mode') === 'production') ? [
+              'babel-plugin-transform-remove-console',
+              {
+                exclude: ['error'],
+              },
+            ] : null,
+          ].filter((v) => v),
+        },
+      },
     ]
   },
   output: {
