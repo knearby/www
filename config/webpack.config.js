@@ -95,26 +95,27 @@ const webpackConfig = {
       hash: true,
       info: {
         author: 'Knearby',
-        description: 'Know what\'s nearby? We do - give us a try!',
-        // facebook: {
-        //   appId: '200218806997138',
-        //   pageId: '1197388153674991',
-        //   profile: {
-        //     firstName: 'Joseph',
-        //     gender: 'male',
-        //     lastName: 'Matthias',
-        //   }
-        // },
+        description: 'Know what\'s nearby? We do.',
+        facebook: {
+          appId: '546387605707059',
+          pageId: '473163106359963',
+        },
         google: {
-          propertyId: 'UA-75287781-3'
+          propertyId: 'UA-127728090-1'
         },
         imageUrl:
           'https://knearby.org/images/logo.light.png',
         keywords: [
+          'knearby',
+          'know',
+          'whats',
           'nearby',
+          'location',
+          'latitude',
+          'longitude',
+          'random',
         ],
-        title: 'Knearby - Know What\'s Nearby',
-        twitterHandle: '@zephinzer',
+        title: 'Knearby | Know what\'s Nearby',
         url: 'https://knearby.org'
       }
     }),

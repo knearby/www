@@ -4,35 +4,27 @@
     <!-- usability stuff -->
     <meta charset="UTF-8">
     <!-- social media stuff -->
-    <meta name="twitter:app:country" content="SG">
-    <!-- <meta property="twitter:card" content="app">
-    <meta property="twitter:site" content="<%= htmlWebpackPlugin.options.info.twitterHandle %>">
-    <meta property="twitter:creator" content="<%= htmlWebpackPlugin.options.info.twitterHandle %>"> -->
     <meta property="og:title" content="<%= htmlWebpackPlugin.options.info.title %>">
     <meta name="author" content="<%= htmlWebpackPlugin.options.info.author %>">
     <meta name="copyright" content="<%= htmlWebpackPlugin.options.info.author %>">
-    <!-- <meta property="og:fb:app_id" content="<%= htmlWebpackPlugin.options.info.facebook.appId %>"> -->
+    <meta property="og:fb:app_id" content="<%= htmlWebpackPlugin.options.info.facebook.appId %>">
     <meta property="og:site_name" content="<%= htmlWebpackPlugin.options.info.title %>">
     <meta property="og:url" content="<%= htmlWebpackPlugin.options.info.url %>">
     <meta property="og:locale" content="en_HK">
     <meta property="og:type" content="website">
-    <!-- <meta property="og:profile:first_name" content="<%= htmlWebpackPlugin.options.info.facebook.profile.firstName %>">
-    <meta property="og:profile:last_name" content="<%= htmlWebpackPlugin.options.info.facebook.profile.lastName %>">
-    <meta property="og:profile:gender" content="<%= htmlWebpackPlugin.options.info.facebook.profile.gender %>">
-    <meta property="og:fb:pages" content="<%= htmlWebpackPlugin.options.info.facebook.pageId %>"> -->
+    <meta property="og:fb:pages" content="<%= htmlWebpackPlugin.options.info.facebook.pageId %>">
     <meta property="og:image" content="<%= htmlWebpackPlugin.options.info.imageUrl %>">
     <meta property="og:description" content="<%= htmlWebpackPlugin.options.info.description %>">
-    <!-- <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.info.description %>"> -->
     <!-- other seo stuff -->
     <meta name="description" content="<%= htmlWebpackPlugin.options.info.description %>">
     <meta name="keywords" content="<%= htmlWebpackPlugin.options.info.keywords %>">
     <meta name="robots" content="index,follow" />
     <meta http-equiv="expires" content="43200" />
-    <title>
-      Knearby
-    </title>
+    <title><%= htmlWebpackPlugin.options.info.title %></title>
   </head>
   <body>
     <div id="entrypoint"></div>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.info.google.propertyId %>"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '<%= htmlWebpackPlugin.options.info.google.propertyId %>');</script>
   </body>
 </html>
