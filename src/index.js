@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import {withStyles} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Fade from '@material-ui/core/Fade';
 
 import Theme from './components/Theme/MuiTheme';
 import LocationIdentifier from './components/LocationIdentifier';
@@ -26,7 +27,10 @@ export default withStyles((theme) => ({
 }))(class Application extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      location: null,
+      randomPlace: null,
+    };
   }
 
   render() {
@@ -37,32 +41,20 @@ export default withStyles((theme) => ({
           <Grid container style={{
             height: '100%',
           }}>
-            <Grid item xs={false} sm={2} />
-            <Grid className={this.props.classes.centerpiece} item xs={12} sm={8}>
+            <Grid item xs={false} sm={1} md={2} />
+            <Grid className={this.props.classes.centerpiece} item xs={12} sm={10} md={8}>
               <br />
               <div className={this.props.classes.logo} />
               <br />
               <LocationIdentifier
                 onLocationChange={this.onLocationChange}
+                onLocationLoading={this.onLocationLoading}
               />
               <br />
-              {
-                this.state.location ? (
-                  <LocationDisplayer location={this.state.location} />
-                ) : (
-                  <div id="location-displayer-placeholder"></div>
-                )
-              }
+              <LocationDisplayer location={this.state.location} />
               <br />
-              {
-                this.state.randomPlace ? (
-                  <RandomLocationInfo data={this.state.randomPlace} />
-                ) : (
-                  <div id="random-place-placeholder"></div>
-                )
-              }
+              <RandomLocationInfo data={this.state.randomPlace} />
             </Grid>
-            <Grid item xs={false} sm={2} />
           </Grid>
         </div>
       </MuiThemeProvider>
@@ -70,18 +62,31 @@ export default withStyles((theme) => ({
   }
 
   onLocationChange = (location) => {
-    this.setState({location});
+    this.setState({
+      location,
+    });
     fetch(`${global.url.api}placeRandom?lat=${location.lat}&lng=${location.lng}&rad=500&text=cafe`)
       .then((res) => res.json())
       .then((randomPlace) => {
         console.info('%c🏷 placerandom', 'font-weight: 800;');
         console.info(randomPlace);
-        this.setState({randomPlace});
+        this.setState({
+          randomPlace,
+        });
       })
       .catch((error) => {
         console.error('%c🔥🔥🔥 placeRandom', 'font-weight: 800;');
         console.error(error);
-        this.setState({randomPlace: null});
+        this.setState({
+          randomPlace: null,
+        });
       });
+  }
+
+  onLocationLoading = () => {
+    this.setState({
+      location: null,
+      randomPlace: null,
+    });
   }
 });
