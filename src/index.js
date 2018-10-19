@@ -9,11 +9,20 @@ import LocationIdentifier from './components/LocationIdentifier';
 import LocationDisplayer from './components/LocationDisplayer';
 import RandomLocationInfo from './components/RandomLocationInfo';
 
+import logo from './assets/logo.light.png';
+
 export default withStyles((theme) => ({
   centerpiece: {
     flexGrow: 1,
     padding: theme.spacing.unit * 2,
   },
+  logo: {
+    backgroundImage: `url(${logo})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    height: '128px',
+  }
 }))(class Application extends React.Component {
   constructor() {
     super();
@@ -30,6 +39,8 @@ export default withStyles((theme) => ({
           }}>
             <Grid item xs={false} sm={2} />
             <Grid className={this.props.classes.centerpiece} item xs={12} sm={8}>
+              <br />
+              <div className={this.props.classes.logo} />
               <br />
               <LocationIdentifier
                 onLocationChange={this.onLocationChange}

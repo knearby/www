@@ -5,7 +5,7 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 export default createMuiTheme({
   palette: {
     type: 'dark',
-    primary: orange,
-    secondary: deepPurple,
+    primary: deepPurple,
+    secondary: orange,
   },
 })

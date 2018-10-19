@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const firebaseProject = JSON.parse(

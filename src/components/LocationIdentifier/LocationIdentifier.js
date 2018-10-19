@@ -36,6 +36,7 @@ export default withStyles((theme) => ({}))(
               <div>
                 {this.state.autocompleteResults.map((place) => (
                   <Button
+                    color="primary"
                     fullWidth
                     key={place.placeId}
                     onClick={() => this.handleLocationSelect(place)}
@@ -101,8 +102,7 @@ export default withStyles((theme) => ({}))(
         clearTimeout(this.textDebounce);
       }
       this.textDebounce = setTimeout(() => {
-        console.info(`triggering request for state ${value} using uuid ${this.state.uuid}`);
-        console.info(`api url: ${global.url.api}placeAutocomplete`);
+        console.info(`[${global.url.api}placeAutocomplete] request uuid: ${this.state.uuid}`);
         if (value.length > 0) {
           fetch(`${global.url.api}placeAutocomplete?session=${this.state.uuid}&text=${value}`)
             .then((res) => res.json())

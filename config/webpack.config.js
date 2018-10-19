@@ -12,6 +12,7 @@ const config = convict({
     default: false,
     env: 'WEBPACK_ANALYZE'
   },
+  context: path.join(__dirname, '../'),
   mode: {
     doc: 'The Webpack mode we should be running in',
     format: ['development', 'production'],
@@ -70,6 +71,13 @@ const webpackConfig = {
           ].filter((v) => v),
         },
       },
+      {
+        test: /.(png|jpg)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'images/[name].[ext]',
+        },
+      },
     ]
   },
   output: {
@@ -80,11 +88,37 @@ const webpackConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       meta: {
-        viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
+        viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
       },
       template: path.join(__dirname, '../src/assets/index.html'),
+      minify: true,
+      hash: true,
+      info: {
+        author: 'Knearby',
+        description: 'Know what\'s nearby? We do - give us a try!',
+        // facebook: {
+        //   appId: '200218806997138',
+        //   pageId: '1197388153674991',
+        //   profile: {
+        //     firstName: 'Joseph',
+        //     gender: 'male',
+        //     lastName: 'Matthias',
+        //   }
+        // },
+        google: {
+          propertyId: 'UA-75287781-3'
+        },
+        imageUrl:
+          'https://knearby.org/images/logo.light.png',
+        keywords: [
+          'nearby',
+        ],
+        title: 'Knearby - Know What\'s Nearby',
+        twitterHandle: '@zephinzer',
+        url: 'https://knearby.org'
+      }
     }),
-    new FaviconsWebpackPlugin(path.join(__dirname, '../src/assets/icon.png')),
+    new FaviconsWebpackPlugin(path.join(__dirname, '../src/assets/icon.light.png')),
   ].concat(webpackConfigBase.plugins),
 };
 
