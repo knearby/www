@@ -1,14 +1,14 @@
-start:
+start: ensure.dependencies.installed
 	./node_modules/.bin/webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js --open
 
-static:
+static: ensure.dependencies.installed
 	firebase use development
 	firebase serve
 
-build:
+build: ensure.dependencies.installed
 	./node_modules/.bin/cross-env WEBPACK_MODE=production webpack --config ./config/webpack.config.js
 
-build.analyze:
+build.analyze: ensure.dependencies.installed
 	./node_modules/.bin/cross-env WEBPACK_MODE=production WEBPACK_ANALYZE=true webpack --config ./config/webpack.config.js
 
 deploy: build
@@ -19,3 +19,6 @@ deploy.production: build
 	firebase use production
 	-firebase deploy
 	firebase use development
+
+ensure.dependencies.installed:
+	npm install

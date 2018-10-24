@@ -5,19 +5,24 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const locationIdentifierPlaceholderText = 'Where are you?';
 
 export default withStyles((theme) => ({}))(
   class LocationIdentifier extends React.Component {
+    state = {
+      autocompleteResults: [],
+      autocompleteResultsLoaded: false,
+      autocompleteResultsLoading: false,
+      locationLoading: false,
+      queryText: '',
+    }
+
     constructor() {
       super();
       this.textDebounce = null;
-      this.state = {
-        autocompleteResults: [],
-        autocompleteResultsLoaded: false,
-        queryText: '',
-      };
     }
 
     componentDidMount() {
@@ -27,13 +32,32 @@ export default withStyles((theme) => ({}))(
     render() {
       return (
         <div id="location-identifier">
+          <Fade
+            in={this.state.autocompleteResultsLoading}
+          >
+            <div style={{
+              position: 'static',
+              textAlign: 'center',
+              width: '100%',
+            }}>
+              <CircularProgress />
+            </div>
+          </Fade>
           <TextField
+            disabled={this.state.locationLoading}
             fullWidth
             onKeyDown={this.handleOnKeyDown}
             onChange={this.handleOnChange}
             placeholder={locationIdentifierPlaceholderText}
             value={this.state.queryText}
           />
+          <Fade in={this.state.locationLoading === true}>
+            <LinearProgress
+              style={{
+                height: '2px',
+              }}
+            />
+          </Fade>
           <Fade
             in={this.state.autocompleteResultsLoaded}
           >
@@ -70,6 +94,7 @@ export default withStyles((theme) => ({}))(
     handleLocationSelect = (selectedPlace) => {
       this.setState({
         autocompleteResultsLoaded: false,
+        locationLoading: true,
         queryText: selectedPlace.mainText,
         loading: true,
       });
@@ -83,7 +108,6 @@ export default withStyles((theme) => ({}))(
           console.info(placeInfo);
           this.setState({
             autocompleteResults: [],
-            loading: false,
             place: placeInfo,
             uuid: uuid(),
           });
@@ -95,9 +119,11 @@ export default withStyles((theme) => ({}))(
           console.error('%c🔥🔥🔥 placeInfo', 'font-weight: 800;');
           console.error(error);
           this.setState({
-            loading: false,
             place: null,
           });
+        })
+        .then(() => {
+          this.setState({locationLoading: false});
         });
     }
 
@@ -105,6 +131,7 @@ export default withStyles((theme) => ({}))(
       const {value} = e.target;
       this.setState({
         queryText: value,
+        autocompleteResultsLoading: true,
       });
       if (this.textDebounce) {
         clearTimeout(this.textDebounce);
@@ -121,7 +148,6 @@ export default withStyles((theme) => ({}))(
                 this.setState({
                   autocompleteResults,
                   autocompleteResultsLoaded: true,
-                  place: null,
                 });
               })
               .catch((error) => {
@@ -130,11 +156,13 @@ export default withStyles((theme) => ({}))(
                 this.setState({
                   autocompleteResults: [],
                   autocompleteResultsLoaded: false,
-                  place: null,
                 });
               })
               .then(() => {
-                this.currentQuery = null;
+                this.setState({
+                  autocompleteResultsLoading: false,
+                  place: null,
+                });
               })
         } else {
           this.setState({

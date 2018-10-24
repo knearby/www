@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import {withStyles} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Fade from '@material-ui/core/Fade';
 
 import Theme from './components/Theme/MuiTheme';
 import LocationIdentifier from './components/LocationIdentifier';
@@ -11,6 +10,7 @@ import LocationDisplayer from './components/LocationDisplayer';
 import RandomLocationInfo from './components/RandomLocationInfo';
 
 import logo from './assets/logo.light.png';
+import { Fade, CircularProgress } from '@material-ui/core';
 
 export default withStyles((theme) => ({
   centerpiece: {
@@ -48,11 +48,19 @@ export default withStyles((theme) => ({
               <br />
               <LocationIdentifier
                 onLocationChange={this.onLocationChange}
-                onLocationLoading={this.onLocationLoading}
               />
               <br />
               <LocationDisplayer location={this.state.location} />
               <br />
+              <Fade in={this.state.locationLoading}>
+                <div style={{
+                  textAlign: 'center',
+                  height: '0px',
+                  width: '100%',
+                }}>
+                  <CircularProgress />
+                </div>
+              </Fade>
               <RandomLocationInfo data={this.state.randomPlace} />
             </Grid>
           </Grid>
@@ -64,6 +72,7 @@ export default withStyles((theme) => ({
   onLocationChange = (location) => {
     this.setState({
       location,
+      locationLoading: true,
     });
     fetch(`${global.url.api}placeRandom?lat=${location.lat}&lng=${location.lng}&rad=500&text=cafe`)
       .then((res) => res.json())
@@ -80,6 +89,9 @@ export default withStyles((theme) => ({
         this.setState({
           randomPlace: null,
         });
+      })
+      .then(() => {
+        this.setState({locationLoading: false});
       });
   }
 
