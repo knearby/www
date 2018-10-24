@@ -98,11 +98,10 @@ export default withStyles((theme) => ({}))(
         queryText: selectedPlace.mainText,
         loading: true,
       });
-      if (ga) { // for google analytics
-        ga('send', {
-          hitType: 'event',
-          eventCategory: 'i-am-at',
-          eventLabel: selectedPlace.mainText,
+      if (typeof gtag !== 'undefined') { // for google analytics
+        gtag('event', 'location', {
+          event_category: 'i-am-at',
+          value: selectedPlace.mainText,
         });
       }
       if (typeof this.props.onLocationLoading === 'function') {
