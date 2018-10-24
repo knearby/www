@@ -4,13 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env WEBPACK_MODE=production webpack --config ./config/webpack.config.js",
-    "build:analyze": "cross-env WEBPACK_MODE=production WEBPACK_ANALYZE=true webpack --config ./config/webpack.config.js",
-    "predeploy": "npm run build",
-    "deploy": "firebase deploy",
-    "start": "webpack-dashboard -- webpack-dev-server --config ./config/webpack.config.js --open",
-    "prestatic": "npm run build",
-    "static": "firebase serve"
+    "make": "make"
   },
   "repository": {
     "type": "git",
