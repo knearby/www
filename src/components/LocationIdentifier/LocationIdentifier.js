@@ -29,6 +29,7 @@ export default withStyles((theme) => ({}))(
         <div id="location-identifier">
           <TextField
             fullWidth
+            onKeyDown={this.handleOnKeyDown}
             onChange={this.handleOnChange}
             placeholder={locationIdentifierPlaceholderText}
             value={this.state.queryText}
@@ -111,32 +112,42 @@ export default withStyles((theme) => ({}))(
       this.textDebounce = setTimeout(() => {
         console.info(`[${global.url.api}placeAutocomplete] request uuid: ${this.state.uuid}`);
         if (value.length > 0) {
-          fetch(`${global.url.api}placeAutocomplete?session=${this.state.uuid}&text=${value}`)
-            .then((res) => res.json())
-            .then((autocompleteResults) => {
-              console.info('%c🏷 placeAutocomplete', 'font-weight: 800;');
-              console.info(autocompleteResults);
-              this.setState({
-                autocompleteResults,
-                autocompleteResultsLoaded: true,
-                place: null,
-              });
-            })
-            .catch((error) => {
-              console.error('%c🔥🔥🔥 placeAutocomplete', 'font-weight: 800;');
-              console.error(error);
-              this.setState({
-                autocompleteResults: [],
-                autocompleteResultsLoaded: false,
-                place: null,
-              });
-            });
+          this.currentQuery = 
+            fetch(`${global.url.api}placeAutocomplete?session=${this.state.uuid}&text=${value}`)
+              .then((res) => res.json())
+              .then((autocompleteResults) => {
+                console.info('%c🏷 placeAutocomplete', 'font-weight: 800;');
+                console.info(autocompleteResults);
+                this.setState({
+                  autocompleteResults,
+                  autocompleteResultsLoaded: true,
+                  place: null,
+                });
+              })
+              .catch((error) => {
+                console.error('%c🔥🔥🔥 placeAutocomplete', 'font-weight: 800;');
+                console.error(error);
+                this.setState({
+                  autocompleteResults: [],
+                  autocompleteResultsLoaded: false,
+                  place: null,
+                });
+              })
+              .then(() => {
+                this.currentQuery = null;
+              })
         } else {
           this.setState({
             autocompleteResults: [],
           });
         }
       }, 500);
+    }
+
+    handleOnKeyDown = (e) => {
+      if (e.keyCode === 13) {
+        e.target.blur();
+      }
     }
   }
 );

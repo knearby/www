@@ -9,17 +9,19 @@ export default withStyles((theme) => ({}))(({classes, location}) => {
   const types = location ? (location.types || []) : [];
   const lat = location ? location.lat : '';
   const lng = location ? location.lng : '';
+  const address = location ? location.address : '';
+
   return (
     <div id="location-displayer">
       <Fade in={available}>
         <div id="loaded">
-          <Typography variant="h4">
-            Near {name}?
-          </Typography>
           <Typography variant="caption">
             {types.map((type) => {
               <span key={type}>#{type}</span>
             })}
+          </Typography>
+          <Typography variant="caption">
+            Address: {address}
           </Typography>
           <Typography variant="caption">
             Coordinates: {lat}, {lng}
