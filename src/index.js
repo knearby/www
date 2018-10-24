@@ -10,7 +10,8 @@ import LocationDisplayer from './components/LocationDisplayer';
 import RandomLocationInfo from './components/RandomLocationInfo';
 
 import logo from './assets/logo.light.png';
-import { Fade, CircularProgress } from '@material-ui/core';
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default withStyles((theme) => ({
   centerpiece: {
