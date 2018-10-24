@@ -20,8 +20,6 @@ cat > .firebaserc <<EOF
 
 > (replace the `dev-env` and `prd-env` as required)
 
-Then run `firebase use development`
-
 2. Install dependencies:
 
 ```sh
@@ -31,17 +29,17 @@ npm install;
 3. Start the application:
 
 ```sh
-npm start;
+make start;
 ```
 
 4. Build the production files:
 
 ```sh
-npm run build;
+make build;
 ```
 
 5. Deploy the site:
 
 ```sh
-npm run deploy;
+make deploy;
 ```
