@@ -62,6 +62,17 @@ const webpackConfig = {
             // allows for `fnName = (arg) => {}` in classes
             '@babel/proposal-class-properties',
             // removes console logging
+            [
+              'auto-import',
+              {
+                declarations: [
+                  {
+                    default: 'React',
+                    path: 'react',
+                  },
+                ],
+              },
+            ],
             (config.get('mode') === 'production') ? [
               'babel-plugin-transform-remove-console',
               {
